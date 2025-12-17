@@ -569,7 +569,7 @@ function importInventory(file) {
 
 // Limpar/zerar todos os dados do inventário
 function clearInventory() {
-    if (confirm('Tem certeza que deseja limpar todos os dados do inventário de hoje?\n\nEsta ação não pode ser desfeita!')) {
+    if (confirm('Tem certeza que deseja limpar todos os dados do inventário de hoje?\n\nEsta ação não pode ser desfeita!\n\nO responsável será atualizado para você.')) {
         // Zerar todas as quantidades
         Object.keys(inventory).forEach(productId => {
             if (inventory[productId]) {
@@ -577,12 +577,16 @@ function clearInventory() {
             }
         });
         
+        // Redefinir o responsável para o usuário atual
+        responsibleName = currentUser;
+        
         // Salvar e atualizar interface
         saveInventory();
         renderProducts();
         updateTotalUsed();
+        updateResponsibleDisplay();
         
-        alert('Inventário limpo com sucesso! Todas as quantidades foram zeradas.');
+        alert('Inventário limpo com sucesso!\nTodas as quantidades foram zeradas.\nVocê é agora o responsável pelo inventário.');
     }
 }
 
