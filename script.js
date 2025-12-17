@@ -57,14 +57,7 @@ let responsibleName = null; // Nome do responsável pelo inventário
 
 // Inicializar sistema de autenticação
 function initAuth() {
-    // Verificar se há usuário logado
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        currentUser = savedUser;
-        showMainScreen();
-        return;
-    }
-    
+    // Sempre mostrar a tela de login ao abrir o site
     showLoginScreen();
     setupAuthListeners();
 }
@@ -148,6 +141,9 @@ function register(username, password) {
 function logout() {
     currentUser = null;
     localStorage.removeItem('currentUser');
+    // Limpar inventário da memória
+    inventory = {};
+    responsibleName = null;
     showLoginScreen();
     // Limpar formulários
     document.getElementById('loginForm').reset();
@@ -170,7 +166,13 @@ function showMainScreen() {
     // Atualizar interface
     document.getElementById('currentUser').textContent = currentUser;
     updateDate();
-    loadInventory();
+    
+    // Sempre zerar todas as quantidades ao fazer login (antes de carregar)
+    resetInventoryOnLogin();
+    
+    // Garantir que todos os produtos estejam no inventário
+    ensureAllProductsInInventory();
+    
     renderProducts();
     updateTotalUsed();
     updateResponsibleDisplay();
@@ -180,6 +182,24 @@ function showMainScreen() {
 // ============================================
 // GERENCIAMENTO DE INVENTÁRIO
 // ============================================
+
+// Zerar todas as quantidades ao fazer login
+function resetInventoryOnLogin() {
+    // Inicializar inventário vazio (todas as quantidades zeradas)
+    inventory = initializeEmptyInventory();
+    // Definir o responsável como o usuário atual
+    responsibleName = currentUser;
+    
+    // Salvar o inventário zerado (sobrescreve qualquer dado anterior)
+    const today = getTodayDate();
+    const dataToSave = {
+        inventory: inventory,
+        responsible: responsibleName || currentUser,
+        date: today,
+        savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(`inventory_${currentUser}_${today}`, JSON.stringify(dataToSave));
+}
 
 // Carregar inventário do localStorage
 function loadInventory() {
@@ -430,17 +450,31 @@ function setupMainListeners() {
     setupTabs();
     
     // Exportar inventário
-    document.getElementById('exportBtn').addEventListener('click', exportInventory);
+    const exportBtn = document.getElementById('exportBtn');
+    // Remover listener anterior se existir
+    const newExportBtn = exportBtn.cloneNode(true);
+    exportBtn.parentNode.replaceChild(newExportBtn, exportBtn);
+    newExportBtn.addEventListener('click', exportInventory);
     
     // Importar inventário
-    document.getElementById('importBtn').addEventListener('click', () => {
+    const importBtn = document.getElementById('importBtn');
+    // Remover listener anterior se existir
+    const newImportBtn = importBtn.cloneNode(true);
+    importBtn.parentNode.replaceChild(newImportBtn, importBtn);
+    newImportBtn.addEventListener('click', () => {
         document.getElementById('fileInput').click();
     });
     
-    document.getElementById('fileInput').addEventListener('change', (e) => {
+    // Configurar listener do fileInput (remover anterior se existir)
+    const fileInput = document.getElementById('fileInput');
+    const newFileInput = fileInput.cloneNode(true);
+    fileInput.parentNode.replaceChild(newFileInput, fileInput);
+    newFileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
             importInventory(file);
+            // Limpar o valor do input para permitir importar o mesmo arquivo novamente
+            e.target.value = '';
         }
     });
     
@@ -554,6 +588,12 @@ function importInventory(file) {
                 updateTotalUsed();
                 updateResponsibleDisplay();
                 
+                // Limpar o input file para evitar loops
+                const fileInput = document.getElementById('fileInput');
+                if (fileInput) {
+                    fileInput.value = '';
+                }
+                
                 alert('Inventário importado com sucesso!');
             } else {
                 alert('Arquivo inválido! O arquivo não contém dados de inventário.');
@@ -561,6 +601,12 @@ function importInventory(file) {
         } catch (error) {
             alert('Erro ao importar arquivo! Verifique se o arquivo é um JSON válido.');
             console.error('Erro na importação:', error);
+            
+            // Limpar o input file mesmo em caso de erro
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput) {
+                fileInput.value = '';
+            }
         }
     };
     
