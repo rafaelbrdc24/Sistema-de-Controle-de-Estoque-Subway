@@ -49,6 +49,7 @@ const PRODUCTS_DATA = {
 // Estado global da aplicação
 let currentUser = null;
 let inventory = {};
+let responsibleName = null; // Nome do responsável pelo inventário
 
 // ============================================
 // SISTEMA DE AUTENTICAÇÃO
@@ -172,6 +173,7 @@ function showMainScreen() {
     loadInventory();
     renderProducts();
     updateTotalUsed();
+    updateResponsibleDisplay();
     setupMainListeners();
 }
 
@@ -185,20 +187,41 @@ function loadInventory() {
     const saved = localStorage.getItem(`inventory_${currentUser}_${today}`);
     
     if (saved) {
-        inventory = JSON.parse(saved);
+        const data = JSON.parse(saved);
+        // Compatibilidade com formato antigo
+        if (data.inventory) {
+            inventory = data.inventory;
+            // Se houver responsável salvo, usar ele; senão, usar o usuário atual
+            responsibleName = data.responsible || currentUser;
+        } else {
+            // Formato antigo (apenas inventory direto)
+            inventory = data;
+            responsibleName = currentUser;
+        }
     } else {
         // Inicializar inventário vazio
         inventory = initializeEmptyInventory();
+        // Definir o responsável como o usuário atual
+        responsibleName = currentUser;
     }
     
     // Garantir que todos os produtos estejam no inventário
     ensureAllProductsInInventory();
+    
+    // Atualizar exibição do responsável
+    updateResponsibleDisplay();
 }
 
 // Salvar inventário no localStorage
 function saveInventory() {
     const today = getTodayDate();
-    localStorage.setItem(`inventory_${currentUser}_${today}`, JSON.stringify(inventory));
+    const dataToSave = {
+        inventory: inventory,
+        responsible: responsibleName || currentUser,
+        date: today,
+        savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(`inventory_${currentUser}_${today}`, JSON.stringify(dataToSave));
     updateTotalUsed();
 }
 
@@ -467,12 +490,21 @@ function setupTabs() {
     });
 }
 
+// Atualizar exibição do responsável
+function updateResponsibleDisplay() {
+    const responsibleElement = document.getElementById('responsibleName');
+    if (responsibleElement) {
+        responsibleElement.textContent = responsibleName || currentUser || '-';
+    }
+}
+
 // Exportar inventário para arquivo JSON
 function exportInventory() {
     const today = getTodayDate();
     const exportData = {
         date: today,
         user: currentUser,
+        responsible: responsibleName || currentUser, // Salvar o responsável
         inventory: inventory,
         exportedAt: new Date().toISOString()
     };
@@ -512,9 +544,15 @@ function importInventory(file) {
                     }
                 });
                 
+                // Se o arquivo importado tem um responsável, usar ele
+                if (importedData.responsible) {
+                    responsibleName = importedData.responsible;
+                }
+                
                 saveInventory();
                 renderProducts();
                 updateTotalUsed();
+                updateResponsibleDisplay();
                 
                 alert('Inventário importado com sucesso!');
             } else {

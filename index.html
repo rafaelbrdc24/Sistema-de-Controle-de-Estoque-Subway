@@ -52,11 +52,21 @@
     <div id="mainScreen" class="screen">
         <header class="header">
             <div class="header-content">
-                <div class="header-logo-container">
-                    <img src="Subway_icon.svg" alt="Subway Logo" class="header-logo-icon">
-                    <h1 class="header-logo">SUBWAY</h1>
+                <div class="header-left">
+                    <div class="responsible-info">
+                        <span class="responsible-label">Responsável:</span>
+                        <strong id="responsibleName">-</strong>
+                    </div>
                 </div>
-                <span class="user-info">Usuário: <strong id="currentUser"></strong></span>
+                <div class="header-center">
+                    <div class="header-logo-container">
+                        <img src="Subway_icon.svg" alt="Subway Logo" class="header-logo-icon">
+                        <h1 class="header-logo">SUBWAY</h1>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <span class="user-info">Usuário: <strong id="currentUser"></strong></span>
+                </div>
             </div>
             <input type="file" id="fileInput" accept=".json" style="display: none;">
         </header>
