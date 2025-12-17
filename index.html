@@ -56,13 +56,7 @@
                     <img src="Subway_icon.svg" alt="Subway Logo" class="header-logo-icon">
                     <h1 class="header-logo">SUBWAY</h1>
                 </div>
-                <div class="header-actions">
-                    <span class="user-info">Usuário: <strong id="currentUser"></strong></span>
-                    <button id="exportBtn" class="btn btn-export">Exportar Inventário</button>
-                    <button id="importBtn" class="btn btn-import">Importar Inventário</button>
-                    <input type="file" id="fileInput" accept=".json" style="display: none;">
-                    <button id="logoutBtn" class="btn btn-logout">Sair</button>
-                </div>
+                <span class="user-info">Usuário: <strong id="currentUser"></strong></span>
             </div>
         </header>
 
@@ -78,18 +72,39 @@
                 </div>
             </div>
 
-            <div class="products-container">
-                <h2 class="section-title">Pães</h2>
-                <div class="products-grid" id="breadsGrid"></div>
+            <!-- Sistema de Abas -->
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="breads">Pães</button>
+                    <button class="tab-btn" data-tab="condiments">Condimentos</button>
+                    <button class="tab-btn" data-tab="ingredients">Ingredientes</button>
+                    <button class="tab-btn" data-tab="supplies">Suprimentos</button>
+                </div>
 
-                <h2 class="section-title">Condimentos</h2>
-                <div class="products-grid" id="condimentsGrid"></div>
+                <!-- Conteúdo das Abas -->
+                <div class="tab-content active" id="tab-breads">
+                    <div class="products-grid" id="breadsGrid"></div>
+                </div>
 
-                <h2 class="section-title">Ingredientes</h2>
-                <div class="products-grid" id="ingredientsGrid"></div>
+                <div class="tab-content" id="tab-condiments">
+                    <div class="products-grid" id="condimentsGrid"></div>
+                </div>
 
-                <h2 class="section-title">Outros Suprimentos</h2>
-                <div class="products-grid" id="suppliesGrid"></div>
+                <div class="tab-content" id="tab-ingredients">
+                    <div class="products-grid" id="ingredientsGrid"></div>
+                </div>
+
+                <div class="tab-content" id="tab-supplies">
+                    <div class="products-grid" id="suppliesGrid"></div>
+                </div>
+            </div>
+
+            <!-- Botões de Ação no Final -->
+            <div class="action-buttons">
+                <button id="exportBtn" class="btn btn-export">Exportar Inventário</button>
+                <button id="importBtn" class="btn btn-import">Importar Inventário</button>
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
+                <button id="logoutBtn" class="btn btn-logout">Sair</button>
             </div>
         </main>
     </div>

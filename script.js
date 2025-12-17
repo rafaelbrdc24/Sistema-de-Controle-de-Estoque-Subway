@@ -410,6 +410,9 @@ function updateTotalUsed() {
 // ============================================
 
 function setupMainListeners() {
+    // Sistema de Abas
+    setupTabs();
+    
     // Exportar inventário
     document.getElementById('exportBtn').addEventListener('click', exportInventory);
     
@@ -423,6 +426,29 @@ function setupMainListeners() {
         if (file) {
             importInventory(file);
         }
+    });
+}
+
+// Configurar sistema de abas
+function setupTabs() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.getAttribute('data-tab');
+            
+            // Remover classe active de todos os botões e conteúdos
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Adicionar classe active ao botão clicado e conteúdo correspondente
+            button.classList.add('active');
+            const targetContent = document.getElementById(`tab-${targetTab}`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
     });
 }
 
