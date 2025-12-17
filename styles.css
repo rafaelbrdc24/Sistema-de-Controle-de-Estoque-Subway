@@ -466,6 +466,31 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 8px;
+    padding: 5px 10px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.product-quantity:hover {
+    background-color: var(--subway-gray);
+    transform: scale(1.05);
+}
+
+.product-quantity[contenteditable="true"] {
+    background-color: var(--subway-yellow);
+    outline: 2px solid var(--subway-green);
+    outline-offset: 2px;
+    cursor: text;
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+.product-quantity[contenteditable="true"]:focus {
+    background-color: var(--subway-yellow);
+    outline: 3px solid var(--subway-green);
 }
 
 .product-controls {

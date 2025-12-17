@@ -341,7 +341,7 @@ function createProductCard(product) {
     card.innerHTML = `
         <div class="product-image">${product.emoji}</div>
         <div class="product-name">${product.name}</div>
-        <div class="product-quantity" id="qty_${productId}">${currentQuantity}</div>
+        <div class="product-quantity editable-quantity" id="qty_${productId}" contenteditable="false" tabindex="0">${currentQuantity}</div>
         <div class="product-controls">
             <button type="button" class="quantity-btn decrease" data-product="${productId}" data-action="decrease" ${currentQuantity === 0 ? 'disabled' : ''}>-</button>
             <button type="button" class="quantity-btn increase" data-product="${productId}" data-action="increase">+</button>
@@ -351,6 +351,7 @@ function createProductCard(product) {
     // Adicionar listeners aos botões usando event delegation mais robusta
     const decreaseBtn = card.querySelector('.decrease');
     const increaseBtn = card.querySelector('.increase');
+    const quantityElement = card.querySelector('.product-quantity');
     
     if (decreaseBtn) {
         decreaseBtn.addEventListener('click', function(e) {
@@ -365,6 +366,61 @@ function createProductCard(product) {
             e.preventDefault();
             e.stopPropagation();
             updateQuantity(productId, 1);
+        });
+    }
+    
+    // Tornar quantidade editável ao clicar
+    if (quantityElement) {
+        quantityElement.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Tornar editável
+            this.contentEditable = 'true';
+            this.focus();
+            // Selecionar todo o texto
+            const range = document.createRange();
+            range.selectNodeContents(this);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+        
+        quantityElement.addEventListener('blur', function() {
+            // Quando perder o foco, validar e atualizar
+            const newValue = parseInt(this.textContent.trim()) || 0;
+            // Garantir que não seja negativo
+            const finalValue = Math.max(0, newValue);
+            this.textContent = finalValue;
+            this.contentEditable = 'false';
+            
+            // Atualizar o inventário com o novo valor
+            if (inventory[productId]) {
+                const oldValue = inventory[productId].quantity || 0;
+                const difference = finalValue - oldValue;
+                if (difference !== 0) {
+                    updateQuantity(productId, difference);
+                }
+            }
+        });
+        
+        quantityElement.addEventListener('keydown', function(e) {
+            // Permitir Enter para confirmar
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.blur();
+            }
+            // Permitir Escape para cancelar
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                this.textContent = inventory[productId]?.quantity || 0;
+                this.contentEditable = 'false';
+                this.blur();
+            }
+            // Permitir apenas números, backspace, delete, arrow keys, etc.
+            if (!/[0-9]/.test(e.key) && 
+                !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Tab', 'Enter', 'Escape'].includes(e.key) &&
+                !(e.ctrlKey && ['a', 'c', 'v', 'x'].includes(e.key.toLowerCase()))) {
+                e.preventDefault();
+            }
         });
     }
     
@@ -402,9 +458,9 @@ function updateQuantity(productId, change) {
     
     inventory[productId].quantity = newQuantity;
     
-    // Atualizar interface
+    // Atualizar interface (apenas se não estiver em modo de edição)
     const quantityElement = document.getElementById(`qty_${productId}`);
-    if (quantityElement) {
+    if (quantityElement && quantityElement.contentEditable !== 'true') {
         quantityElement.textContent = newQuantity;
     }
     
