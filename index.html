@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Controle de Estoque - Subway</title>
+    <link rel="icon" type="image/svg+xml" href="Subway_icon.svg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="logo-container">
+                <img src="Subway_icon.svg" alt="Subway Logo" class="logo-icon">
+                <h1 class="logo">SUBWAY</h1>
+                <p class="subtitle">Controle de Estoque Diário</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Usuário</label>
+                    <input type="text" id="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <p class="register-link">Não tem conta? <a href="#" id="showRegister">Cadastre-se</a></p>
+            </form>
+            
+            <form id="registerForm" class="login-form hidden">
+                <div class="form-group">
+                    <label for="newUsername">Novo Usuário</label>
+                    <input type="text" id="newUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Nova Senha</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <p class="register-link">Já tem conta? <a href="#" id="showLogin">Fazer login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tela Principal do Sistema -->
+    <div id="mainScreen" class="screen">
+        <header class="header">
+            <div class="header-content">
+                <div class="header-logo-container">
+                    <img src="Subway_icon.svg" alt="Subway Logo" class="header-logo-icon">
+                    <h1 class="header-logo">SUBWAY</h1>
+                </div>
+                <div class="header-actions">
+                    <span class="user-info">Usuário: <strong id="currentUser"></strong></span>
+                    <button id="exportBtn" class="btn btn-export">Exportar Inventário</button>
+                    <button id="importBtn" class="btn btn-import">Importar Inventário</button>
+                    <input type="file" id="fileInput" accept=".json" style="display: none;">
+                    <button id="logoutBtn" class="btn btn-logout">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <span class="stat-label">Total Usado Hoje</span>
+                    <span class="stat-value" id="totalUsed">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Data</span>
+                    <span class="stat-value" id="currentDate"></span>
+                </div>
+            </div>
+
+            <div class="products-container">
+                <h2 class="section-title">Pães</h2>
+                <div class="products-grid" id="breadsGrid"></div>
+
+                <h2 class="section-title">Condimentos</h2>
+                <div class="products-grid" id="condimentsGrid"></div>
+
+                <h2 class="section-title">Ingredientes</h2>
+                <div class="products-grid" id="ingredientsGrid"></div>
+
+                <h2 class="section-title">Outros Suprimentos</h2>
+                <div class="products-grid" id="suppliesGrid"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
