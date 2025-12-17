@@ -115,13 +115,6 @@ function setupAuthListeners() {
         document.getElementById('registerForm').classList.add('hidden');
         document.getElementById('loginForm').classList.remove('hidden');
     });
-    
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-        if (confirm('Deseja realmente sair?')) {
-            logout();
-        }
-    });
 }
 
 // Função de login
@@ -429,7 +422,26 @@ function setupMainListeners() {
     });
     
     // Limpar dados
-    document.getElementById('clearBtn').addEventListener('click', clearInventory);
+    const clearBtn = document.getElementById('clearBtn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearInventory);
+    }
+    
+    // Logout
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        // Remover event listeners anteriores para evitar duplicação
+        const newLogoutBtn = logoutBtn.cloneNode(true);
+        logoutBtn.parentNode.replaceChild(newLogoutBtn, logoutBtn);
+        
+        newLogoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (confirm('Deseja realmente sair?')) {
+                logout();
+            }
+        });
+    }
 }
 
 // Configurar sistema de abas
