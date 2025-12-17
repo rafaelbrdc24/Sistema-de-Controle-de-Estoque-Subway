@@ -295,6 +295,17 @@ body {
     box-shadow: var(--shadow);
 }
 
+.btn-clear {
+    background: #FF9800;
+    color: var(--subway-white);
+}
+
+.btn-clear:hover {
+    background: #F57C00;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
 .btn-logout {
     background: #DC3545;
     color: var(--subway-white);

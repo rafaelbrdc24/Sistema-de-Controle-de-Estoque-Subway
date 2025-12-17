@@ -427,6 +427,9 @@ function setupMainListeners() {
             importInventory(file);
         }
     });
+    
+    // Limpar dados
+    document.getElementById('clearBtn').addEventListener('click', clearInventory);
 }
 
 // Configurar sistema de abas
@@ -512,6 +515,25 @@ function importInventory(file) {
     };
     
     reader.readAsText(file);
+}
+
+// Limpar/zerar todos os dados do inventário
+function clearInventory() {
+    if (confirm('Tem certeza que deseja limpar todos os dados do inventário de hoje?\n\nEsta ação não pode ser desfeita!')) {
+        // Zerar todas as quantidades
+        Object.keys(inventory).forEach(productId => {
+            if (inventory[productId]) {
+                inventory[productId].quantity = 0;
+            }
+        });
+        
+        // Salvar e atualizar interface
+        saveInventory();
+        renderProducts();
+        updateTotalUsed();
+        
+        alert('Inventário limpo com sucesso! Todas as quantidades foram zeradas.');
+    }
 }
 
 // ============================================
