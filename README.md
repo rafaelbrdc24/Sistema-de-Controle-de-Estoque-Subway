@@ -114,14 +114,6 @@ Para adicionar ou modificar produtos, edite o objeto `PRODUCTS_DATA` no arquivo 
 - Os dados são salvos automaticamente a cada alteração
 - O inventário é separado por data (um inventário por dia)
 
-## 🚀 Deploy no GitHub Pages
-
-1. Crie um repositório no GitHub
-2. Faça upload dos arquivos
-3. Vá em Settings > Pages
-4. Selecione a branch principal
-5. O site estará disponível em `https://seu-usuario.github.io/nome-do-repositorio`
-
 ## 📄 Licença
 
 Este projeto é de uso livre para fins comerciais e pessoais.
@@ -129,4 +121,5 @@ Este projeto é de uso livre para fins comerciais e pessoais.
 ---
 
 Desenvolvido com ❤️ para lojas Subway
+
 
