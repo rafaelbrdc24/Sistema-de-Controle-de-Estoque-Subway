@@ -157,6 +157,7 @@ const PRODUCTS_DATA = {
 let currentUser = null;
 let inventory = {};
 let responsibleName = null; // Nome do responsável pelo inventário
+let isLocked = false; // Controla se o inventário está bloqueado após importação
 
 // ============================================
 // SISTEMA DE AUTENTICAÇÃO
@@ -277,12 +278,16 @@ function showMainScreen() {
     // Sempre zerar todas as quantidades ao fazer login (antes de carregar)
     resetInventoryOnLogin();
     
+    // Desbloquear ao fazer login (novo dia)
+    isLocked = false;
+    
     // Garantir que todos os produtos estejam no inventário
     ensureAllProductsInInventory();
     
     renderProducts();
     updateTotalUsed();
     updateResponsibleDisplay();
+    updateLockStatus();
     setupMainListeners();
 }
 
@@ -454,13 +459,18 @@ function createProductCard(product) {
     card.className = 'product-card';
     card.dataset.productId = productId;
     
+    // Adicionar classe de bloqueado se necessário
+    if (isLocked) {
+        card.classList.add('locked');
+    }
+    
     card.innerHTML = `
         <div class="product-image">${product.emoji}</div>
         <div class="product-name">${product.name}</div>
-        <div class="product-quantity editable-quantity" id="qty_${productId}" contenteditable="false" tabindex="0">${currentQuantity}</div>
+        <div class="product-quantity editable-quantity" id="qty_${productId}" contenteditable="false" tabindex="${isLocked ? '-1' : '0'}">${currentQuantity}</div>
         <div class="product-controls">
-            <button type="button" class="quantity-btn decrease" data-product="${productId}" data-action="decrease" ${currentQuantity === 0 ? 'disabled' : ''}>-</button>
-            <button type="button" class="quantity-btn increase" data-product="${productId}" data-action="increase">+</button>
+            <button type="button" class="quantity-btn decrease" data-product="${productId}" data-action="decrease" ${currentQuantity === 0 || isLocked ? 'disabled' : ''}>-</button>
+            <button type="button" class="quantity-btn increase" data-product="${productId}" data-action="increase" ${isLocked ? 'disabled' : ''}>+</button>
         </div>
     `;
     
@@ -469,7 +479,7 @@ function createProductCard(product) {
     const increaseBtn = card.querySelector('.increase');
     const quantityElement = card.querySelector('.product-quantity');
     
-    if (decreaseBtn) {
+    if (decreaseBtn && !isLocked) {
         decreaseBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -477,7 +487,7 @@ function createProductCard(product) {
         });
     }
     
-    if (increaseBtn) {
+    if (increaseBtn && !isLocked) {
         increaseBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -485,8 +495,8 @@ function createProductCard(product) {
         });
     }
     
-    // Tornar quantidade editável ao clicar
-    if (quantityElement) {
+    // Tornar quantidade editável ao clicar (apenas se não estiver bloqueado)
+    if (quantityElement && !isLocked) {
         quantityElement.addEventListener('click', function(e) {
             e.stopPropagation();
             // Tornar editável
@@ -548,6 +558,11 @@ function createProductCard(product) {
 // ============================================
 
 function updateQuantity(productId, change) {
+    // Verificar se está bloqueado
+    if (isLocked) {
+        return; // Não permitir edição quando bloqueado
+    }
+    
     // Garantir que o produto existe no inventário
     if (!inventory[productId]) {
         const product = findProductById(productId);
@@ -583,7 +598,7 @@ function updateQuantity(productId, change) {
     // Atualizar estado do botão de diminuir
     const decreaseBtn = document.querySelector(`[data-product="${productId}"][data-action="decrease"]`);
     if (decreaseBtn) {
-        decreaseBtn.disabled = newQuantity === 0;
+        decreaseBtn.disabled = newQuantity === 0 || isLocked;
     }
     
     // Salvar e atualizar total
@@ -704,6 +719,20 @@ function updateResponsibleDisplay() {
     }
 }
 
+// Atualizar status de bloqueio na interface
+function updateLockStatus() {
+    const responsibleElement = document.getElementById('responsibleName');
+    if (responsibleElement) {
+        if (isLocked) {
+            responsibleElement.parentElement.classList.add('locked-status');
+            responsibleElement.parentElement.title = 'Inventário bloqueado após importação. Use "Limpar Dados" para desbloquear.';
+        } else {
+            responsibleElement.parentElement.classList.remove('locked-status');
+            responsibleElement.parentElement.title = '';
+        }
+    }
+}
+
 // Exportar inventário para arquivo JSON
 function exportInventory() {
     const today = getTodayDate();
@@ -727,7 +756,7 @@ function exportInventory() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    alert(`Inventário exportado com sucesso!\nArquivo: inventory_${today}.json\n\nSalve este arquivo na pasta sincronizada com o Google Drive.`);
+    alert(`Inventário exportado com sucesso!\nArquivo: inventory_${today}.json`);
 }
 
 // Importar inventário de arquivo JSON
@@ -755,10 +784,14 @@ function importInventory(file) {
                     responsibleName = importedData.responsible;
                 }
                 
+                // BLOQUEAR edição após importação
+                isLocked = true;
+                
                 saveInventory();
                 renderProducts();
                 updateTotalUsed();
                 updateResponsibleDisplay();
+                updateLockStatus();
                 
                 // Limpar o input file para evitar loops
                 const fileInput = document.getElementById('fileInput');
@@ -766,7 +799,7 @@ function importInventory(file) {
                     fileInput.value = '';
                 }
                 
-                alert('Inventário importado com sucesso!');
+                alert('Inventário importado com sucesso!\n\nO inventário está BLOQUEADO para edição.\nUse o botão "Limpar Dados" para desbloquear e começar um novo inventário.');
             } else {
                 alert('Arquivo inválido! O arquivo não contém dados de inventário.');
             }
@@ -798,13 +831,17 @@ function clearInventory() {
         // Redefinir o responsável para o usuário atual
         responsibleName = currentUser;
         
+        // DESBLOQUEAR edição após limpar
+        isLocked = false;
+        
         // Salvar e atualizar interface
         saveInventory();
         renderProducts();
         updateTotalUsed();
         updateResponsibleDisplay();
+        updateLockStatus();
         
-        alert('Inventário limpo com sucesso!\nTodas as quantidades foram zeradas.\nVocê é agora o responsável pelo inventário.');
+        alert('Inventário limpo com sucesso!\nTodas as quantidades foram zeradas.\nVocê é agora o responsável pelo inventário.\n\nO inventário está DESBLOQUEADO e pronto para edição.');
     }
 }
 
