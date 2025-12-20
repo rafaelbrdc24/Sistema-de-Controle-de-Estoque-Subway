@@ -5,44 +5,151 @@
 // Dados dos produtos pré-configurados
 const PRODUCTS_DATA = {
     breads: [
-        { id: 'bread_italian', name: 'Pão Italiano', emoji: '🍞', initialQty: 0 },
-        { id: 'bread_9grain', name: 'Pão 9 Grãos', emoji: '🥖', initialQty: 0 },
-        { id: 'bread_parmesan', name: 'Pão Parmesão', emoji: '🧀', initialQty: 0 },
-        { id: 'bread_flatbread', name: 'Flatbread', emoji: '🥯', initialQty: 0 },
-        { id: 'bread_wrap', name: 'Wrap', emoji: '🌯', initialQty: 0 }
+        { id: 'pao_30cm', name: 'Pão 30 cm', emoji: '🥖', initialQty: 0 },
+        { id: 'pao_branco', name: 'Pão branco', emoji: '🥖', initialQty: 0 },
+        { id: 'pao_9graos', name: 'Pão 9 grãos', emoji: '🥖', initialQty: 0 }
     ],
-    condiments: [
-        { id: 'mayo', name: 'Maionese', emoji: '🥄', initialQty: 0 },
-        { id: 'mustard', name: 'Mostarda', emoji: '🟡', initialQty: 0 },
-        { id: 'ketchup', name: 'Ketchup', emoji: '🍅', initialQty: 0 },
-        { id: 'ranch', name: 'Ranch', emoji: '🥛', initialQty: 0 },
-        { id: 'chipotle', name: 'Chipotle', emoji: '🌶️', initialQty: 0 },
-        { id: 'honey_mustard', name: 'Mel e Mostarda', emoji: '🍯', initialQty: 0 },
-        { id: 'sweet_onion', name: 'Cebola Doce', emoji: '🧅', initialQty: 0 },
-        { id: 'bbq', name: 'Barbecue', emoji: '🔥', initialQty: 0 }
+    drinks: [
+        { id: 'agua_sem_gas', name: 'Água sem gás', emoji: '💧', initialQty: 0 },
+        { id: 'agua_com_gas', name: 'Água com gás', emoji: '💧', initialQty: 0 },
+        { id: 'coca_lata', name: 'Coca Lata', emoji: '🥤', initialQty: 0 },
+        { id: 'coca_zero_lata', name: 'Coca Zero Lata', emoji: '🥤', initialQty: 0 },
+        { id: 'fanta_laranja_lata', name: 'Fanta Laranja Lata', emoji: '🥤', initialQty: 0 },
+        { id: 'fanta_uva_lata', name: 'Fanta Uva Lata', emoji: '🥤', initialQty: 0 },
+        { id: 'kuat_lata', name: 'Kuat Lata', emoji: '🥤', initialQty: 0 },
+        { id: 'sprite_lata', name: 'Sprite Lata', emoji: '🥤', initialQty: 0 },
+        { id: 'sprite_lemon_fresh', name: 'Sprite Lemon Fresh', emoji: '🥤', initialQty: 0 },
+        { id: 'schweppes', name: 'Schweppes', emoji: '🥤', initialQty: 0 },
+        { id: 'guarana_jesus', name: 'Guaraná Jesus', emoji: '🥤', initialQty: 0 },
+        { id: 'del_valle_uva_pet', name: 'Del Valle Uva PET', emoji: '🧃', initialQty: 0 },
+        { id: 'del_valle_uva_lata', name: 'Del Valle Uva Lata', emoji: '🧃', initialQty: 0 },
+        { id: 'del_valle_maracuja', name: 'Del Valle Maracujá', emoji: '🧃', initialQty: 0 },
+        { id: 'del_valle_laranja_pet', name: 'Del Valle Laranja PET', emoji: '🧃', initialQty: 0 },
+        { id: 'del_valle_pessego', name: 'Del Valle Pêssego', emoji: '🧃', initialQty: 0 },
+        { id: 'suco_laranja', name: 'Suco de Laranja', emoji: '🧃', initialQty: 0 },
+        { id: 'suco_uva', name: 'Suco de Uva', emoji: '🧃', initialQty: 0 },
+        { id: 'suco_pessego', name: 'Suco de Pêssego', emoji: '🧃', initialQty: 0 }
     ],
-    ingredients: [
-        { id: 'lettuce', name: 'Alface', emoji: '🥬', initialQty: 0 },
-        { id: 'tomato', name: 'Tomate', emoji: '🍅', initialQty: 0 },
-        { id: 'onion', name: 'Cebola', emoji: '🧅', initialQty: 0 },
-        { id: 'pepper', name: 'Pimentão', emoji: '🫑', initialQty: 0 },
-        { id: 'pickles', name: 'Picles', emoji: '🥒', initialQty: 0 },
-        { id: 'olives', name: 'Azeitonas', emoji: '🫒', initialQty: 0 },
-        { id: 'jalapeno', name: 'Jalapeño', emoji: '🌶️', initialQty: 0 },
-        { id: 'cheese', name: 'Queijo', emoji: '🧀', initialQty: 0 },
-        { id: 'bacon', name: 'Bacon', emoji: '🥓', initialQty: 0 },
-        { id: 'chicken', name: 'Frango', emoji: '🍗', initialQty: 0 },
-        { id: 'ham', name: 'Presunto', emoji: '🥩', initialQty: 0 },
-        { id: 'turkey', name: 'Peito de Peru', emoji: '🦃', initialQty: 0 }
+    syrups: [
+        { id: 'bag_coca_cola', name: 'Bag Coca-Cola', emoji: '🧊', initialQty: 0 },
+        { id: 'bag_fanta_laranja', name: 'Bag Fanta Laranja', emoji: '🧊', initialQty: 0 },
+        { id: 'bag_coca_zero', name: 'Bag Coca Zero', emoji: '🧊', initialQty: 0 },
+        { id: 'bag_kuat', name: 'Bag Kuat', emoji: '🧊', initialQty: 0 },
+        { id: 'co2', name: 'CO2', emoji: '🧊', initialQty: 0 }
     ],
-    supplies: [
-        { id: 'napkins', name: 'Guardanapos', emoji: '📄', initialQty: 0 },
-        { id: 'cups', name: 'Copos', emoji: '🥤', initialQty: 0 },
-        { id: 'lids', name: 'Tampas', emoji: '🔲', initialQty: 0 },
-        { id: 'straws', name: 'Canudos', emoji: '🥤', initialQty: 0 },
-        { id: 'bags', name: 'Sacolas', emoji: '🛍️', initialQty: 0 },
-        { id: 'gloves', name: 'Luvas', emoji: '🧤', initialQty: 0 },
-        { id: 'wrappers', name: 'Embalagens', emoji: '📦', initialQty: 0 }
+    meats: [
+        { id: 'proteina_vegana', name: 'Proteína vegana', emoji: '🌱', initialQty: 0 },
+        { id: 'carne_insano', name: 'Carne insano', emoji: '🥩', initialQty: 0 },
+        { id: 'carne_seca', name: 'Carne seca', emoji: '🥩', initialQty: 0 },
+        { id: 'carne_tiras', name: 'Carne em tiras', emoji: '🥩', initialQty: 0 },
+        { id: 'steak_churrasco', name: 'Steak churrasco', emoji: '🥩', initialQty: 0 },
+        { id: 'presunto', name: 'Presunto', emoji: '🥩', initialQty: 0 },
+        { id: 'bacon_fatiado', name: 'Bacon fatiado', emoji: '🥓', initialQty: 0 },
+        { id: 'salame_fatiado', name: 'Salame fatiado', emoji: '🥩', initialQty: 0 },
+        { id: 'pepperone', name: 'Pepperone', emoji: '🥩', initialQty: 0 },
+        { id: 'empanado', name: 'Empanado', emoji: '🍗', initialQty: 0 },
+        { id: 'peito_frango', name: 'Peito de frango', emoji: '🍗', initialQty: 0 },
+        { id: 'frango_cubos', name: 'Frango em cubos', emoji: '🍗', initialQty: 0 },
+        { id: 'frango_tiras', name: 'Frango em tiras', emoji: '🍗', initialQty: 0 },
+        { id: 'frango_rotisserie', name: 'Frango Rotisserie', emoji: '🍗', initialQty: 0 },
+        { id: 'pernil', name: 'Pernil', emoji: '🥩', initialQty: 0 }
+    ],
+    cheeses: [
+        { id: 'queijo_suico', name: 'Queijo suíço', emoji: '🧀', initialQty: 0 },
+        { id: 'queijo_cheddar', name: 'Queijo cheddar', emoji: '🧀', initialQty: 0 },
+        { id: 'queijo_ralado', name: 'Queijo ralado', emoji: '🧀', initialQty: 0 },
+        { id: 'queijo_mussarela', name: 'Queijo mussarela', emoji: '🧀', initialQty: 0 },
+        { id: 'cream_cheese', name: 'Cream cheese', emoji: '🧀', initialQty: 0 },
+        { id: 'cheddar_cremoso', name: 'Cheddar cremoso', emoji: '🧀', initialQty: 0 }
+    ],
+    vegetables: [
+        { id: 'alface', name: 'Alface', emoji: '🥬', initialQty: 0 },
+        { id: 'tomate', name: 'Tomate', emoji: '🍅', initialQty: 0 },
+        { id: 'cebola', name: 'Cebola', emoji: '🧅', initialQty: 0 },
+        { id: 'pepino', name: 'Pepino', emoji: '🥒', initialQty: 0 },
+        { id: 'pimentao', name: 'Pimentão', emoji: '🫑', initialQty: 0 },
+        { id: 'pepino_fatiado', name: 'Pepino fatiado', emoji: '🥒', initialQty: 0 },
+        { id: 'azeitona_preta', name: 'Azeitona preta', emoji: '🫒', initialQty: 0 },
+        { id: 'cebola_croc', name: 'Cebola Croc', emoji: '🧅', initialQty: 0 }
+    ],
+    sauces: [
+        { id: 'azeite_oliva', name: 'Azeite de oliva', emoji: '🫒', initialQty: 0 },
+        { id: 'oregano', name: 'Orégano', emoji: '🌿', initialQty: 0 },
+        { id: 'mix_pimentas', name: 'Mix de pimentas', emoji: '🌶️', initialQty: 0 },
+        { id: 'molho_cheddar_veg', name: 'Molho Cheddar VEG', emoji: '🧀', initialQty: 0 },
+        { id: 'molho_teriyake', name: 'Molho teriyake', emoji: '🍯', initialQty: 0 },
+        { id: 'molho_goulash', name: 'Molho Goulash', emoji: '🍲', initialQty: 0 },
+        { id: 'molho_chipotle', name: 'Molho chipotle', emoji: '🌶️', initialQty: 0 },
+        { id: 'molho_barbecue', name: 'Molho barbecue', emoji: '🔥', initialQty: 0 },
+        { id: 'molho_supreme', name: 'Molho Supreme', emoji: '🥄', initialQty: 0 },
+        { id: 'mostarda_mel', name: 'Mostarda e mel', emoji: '🍯', initialQty: 0 },
+        { id: 'maionese', name: 'Maionese', emoji: '🥄', initialQty: 0 },
+        { id: 'maionese_alho', name: 'Maionese Alho', emoji: '🥄', initialQty: 0 },
+        { id: 'pasta_alho', name: 'Pasta de alho', emoji: '🧄', initialQty: 0 },
+        { id: 'm_temperada', name: 'M. Temperada', emoji: '🥄', initialQty: 0 },
+        { id: 'm_parmesan', name: 'M. Parmesan', emoji: '🧀', initialQty: 0 }
+    ],
+    sides: [
+        { id: 'batata_rustica', name: 'Batata Rústica', emoji: '🍟', initialQty: 0 },
+        { id: 'saladeira', name: 'Saladeira', emoji: '🥗', initialQty: 0 }
+    ],
+    snacks: [
+        { id: 'ruffles_original', name: 'Ruffles original', emoji: '🍟', initialQty: 0 },
+        { id: 'doritos', name: 'Doritos', emoji: '🌮', initialQty: 0 },
+        { id: 'cookie', name: 'Cookie', emoji: '🍪', initialQty: 0 },
+        { id: 'cookie_gotas_chocolate', name: 'Cookie gotas chocolate', emoji: '🍪', initialQty: 0 },
+        { id: 'cookie_chocolate', name: 'Cookie chocolate', emoji: '🍪', initialQty: 0 },
+        { id: 'saco_cookies', name: 'Saco de cookies', emoji: '🍪', initialQty: 0 }
+    ],
+    packaging: [
+        { id: 'saco_sos_15cm', name: 'Saco SOS 15 cm', emoji: '🛍️', initialQty: 0 },
+        { id: 'saco_sos_30cm', name: 'Saco SOS 30 cm', emoji: '🛍️', initialQty: 0 },
+        { id: 'saco_sos_lata', name: 'Saco SOS Lata', emoji: '🛍️', initialQty: 0 },
+        { id: 'copo_330ml', name: 'Copo 330 ml', emoji: '🥤', initialQty: 0 },
+        { id: 'copo_440ml', name: 'Copo 440 ml', emoji: '🥤', initialQty: 0 },
+        { id: 'copo_liso_200ml', name: 'Copo liso 200 ml', emoji: '🥤', initialQty: 0 },
+        { id: 'tampa_330ml', name: 'Tampa 330 ml', emoji: '🔲', initialQty: 0 },
+        { id: 'tampa_440ml', name: 'Tampa 440 ml', emoji: '🔲', initialQty: 0 },
+        { id: 'guardanapo', name: 'Guardanapo', emoji: '📄', initialQty: 0 },
+        { id: 'canudo', name: 'Canudo', emoji: '🥤', initialQty: 0 },
+        { id: 'papel_setup', name: 'Papel setup', emoji: '📄', initialQty: 0 },
+        { id: 'subwrap_40x25', name: 'Subwrap 40x25', emoji: '📦', initialQty: 0 },
+        { id: 'subwrap_40x50', name: 'Subwrap 40x50', emoji: '📦', initialQty: 0 },
+        { id: 'pote_molho', name: 'Pote molho', emoji: '🥄', initialQty: 0 },
+        { id: 'cps', name: 'CPS', emoji: '📦', initialQty: 0 }
+    ],
+    cleaning: [
+        { id: 'saco_lixo_200l', name: 'Saco de lixo 200L', emoji: '🗑️', initialQty: 0 },
+        { id: 'saco_lixo_100l', name: 'Saco de lixo 100L', emoji: '🗑️', initialQty: 0 },
+        { id: 'saco_lixo_60l', name: 'Saco de lixo 60L', emoji: '🗑️', initialQty: 0 },
+        { id: 'saco_lixo_20l', name: 'Saco de lixo 20L', emoji: '🗑️', initialQty: 0 },
+        { id: 'papel_higienico', name: 'Papel higiênico', emoji: '🧻', initialQty: 0 },
+        { id: 'papel_toalha', name: 'Papel toalha', emoji: '🧻', initialQty: 0 },
+        { id: 'sanitizer', name: 'Sanitizer', emoji: '🧴', initialQty: 0 },
+        { id: 'multiuso', name: 'Multiuso', emoji: '🧴', initialQty: 0 },
+        { id: 'detergente', name: 'Detergente', emoji: '🧴', initialQty: 0 },
+        { id: 'sabonete', name: 'Sabonete', emoji: '🧼', initialQty: 0 },
+        { id: 'sabonete_bactericida', name: 'Sabonete bactericida', emoji: '🧼', initialQty: 0 },
+        { id: 'limpa_vidro_spirit', name: 'Limpa vidro – Spirit', emoji: '🧴', initialQty: 0 },
+        { id: 'alcool_gel', name: 'Álcool em gel', emoji: '🧴', initialQty: 0 },
+        { id: 'polidor_inox', name: 'Polidor de inox', emoji: '✨', initialQty: 0 },
+        { id: 'limpa_piso', name: 'Limpa piso', emoji: '🧹', initialQty: 0 },
+        { id: 'limpa_tabua', name: 'Limpa tábua', emoji: '🧹', initialQty: 0 },
+        { id: 'desengordurante', name: 'Desengordurante', emoji: '🧴', initialQty: 0 },
+        { id: 'pano_rolo', name: 'Pano em rolo', emoji: '🧽', initialQty: 0 },
+        { id: 'luvas', name: 'Luvas', emoji: '🧤', initialQty: 0 },
+        { id: 'esponja_dupla_face', name: 'Esponja dupla face', emoji: '🧽', initialQty: 0 }
+    ],
+    labels: [
+        { id: 'etiqueta_validade', name: 'Etiqueta de validade', emoji: '🏷️', initialQty: 0 },
+        { id: 'etiqueta_validade_freezer', name: 'Etiqueta validade freezer', emoji: '🏷️', initialQty: 0 },
+        { id: 'etiqueta_logo', name: 'Etiqueta logo', emoji: '🏷️', initialQty: 0 },
+        { id: 'etiqueta_delivery', name: 'Etiqueta delivery', emoji: '🏷️', initialQty: 0 },
+        { id: 'bobina', name: 'Bobina', emoji: '📋', initialQty: 0 }
+    ],
+    utensils: [
+        { id: 'talher', name: 'Talher', emoji: '🍴', initialQty: 0 },
+        { id: 'redinha_cabelo', name: 'Redinha de cabelo', emoji: '👒', initialQty: 0 }
     ]
 };
 
@@ -300,9 +407,18 @@ function updateDate() {
 
 function renderProducts() {
     renderProductCategory('breads', 'breadsGrid');
-    renderProductCategory('condiments', 'condimentsGrid');
-    renderProductCategory('ingredients', 'ingredientsGrid');
-    renderProductCategory('supplies', 'suppliesGrid');
+    renderProductCategory('drinks', 'drinksGrid');
+    renderProductCategory('syrups', 'syrupsGrid');
+    renderProductCategory('meats', 'meatsGrid');
+    renderProductCategory('cheeses', 'cheesesGrid');
+    renderProductCategory('vegetables', 'vegetablesGrid');
+    renderProductCategory('sauces', 'saucesGrid');
+    renderProductCategory('sides', 'sidesGrid');
+    renderProductCategory('snacks', 'snacksGrid');
+    renderProductCategory('packaging', 'packagingGrid');
+    renderProductCategory('cleaning', 'cleaningGrid');
+    renderProductCategory('labels', 'labelsGrid');
+    renderProductCategory('utensils', 'utensilsGrid');
 }
 
 function renderProductCategory(category, gridId) {

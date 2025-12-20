@@ -265,17 +265,18 @@ body {
 }
 
 .tab-btn {
-    padding: 12px 24px;
+    padding: 10px 18px;
     background: transparent;
     border: none;
     border-bottom: 3px solid transparent;
     color: #666;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     margin-bottom: -3px;
     position: relative;
+    white-space: nowrap;
 }
 
 .tab-btn:hover {
